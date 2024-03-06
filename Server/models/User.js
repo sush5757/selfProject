@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Users = sequelize.define("Users", {
+    const User = sequelize.define("User", {
         username: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -11,9 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            validate: {
-                isEmail: true,
-            }
+            
         },
         phone_number: {
             type: DataTypes.INTEGER,
@@ -43,11 +41,5 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
     });
 
-    // Hook to hash the password before saving
-    Users.beforeCreate(async (user) => {
-        const hashedPassword = await bcrypt.hash(user.password, 10);
-        user.password = hashedPassword;
-    });
-
-    return Users;
+    return User;
 };
