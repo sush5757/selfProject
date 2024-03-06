@@ -1,29 +1,16 @@
 const express = require("express")
 const app = express() 
-const mysql = require("mysql2")
-const cors = require("cors")
+const db = require(`./models`)
 
-
-
-
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'estate',
-  });
-
-  db.connect((err) =>{
-    if (!err) {
-        console.log('Connected to MySQL database');
-      } else {
-        console.error('MySQL connection error:', err);
-      }
-  });
+// Routers
+const postRouter = require("./Routes/Login")
+app.use("/login", postRouter)
 
 
 const port = 3001;
 
-app.listen(port , ()=>{
+db.sequelize.sync().then(() => {
+  app.listen(port , ()=>{
     console.log(`Server is running on port ${port}`);
+});
 });
